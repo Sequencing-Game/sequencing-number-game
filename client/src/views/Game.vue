@@ -1,10 +1,21 @@
 <template>
-<div class="game">
-  <form @submit.prevent="sendServer">
-    <input v-model="number" type="number">
-    <h1>{{ getName }}</h1>
-  </form>
-  <p v-for="(item, idx) in input" :key="idx">{{ item.name }}: {{ item.number }}</p>
+<div class="container">
+  <img src="../assets/usher.svg" alt="" style="height:30vh;">
+  <div class="row">
+    <h1 class="display-3 text-white">Hey there, {{ getName }} !</h1>
+  </div><br>
+  <div class="row">
+    <form @submit.prevent="sendServer" >
+      <h1>Set your number here</h1>
+      <input id="number" v-model="number" type="number" class="form-control" placeholder="guess the next number faster!">
+    </form>
+  </div><br>
+  <div class="bg-white rounded shadow container m-10" style="display:flex; flex-wrap:wrap; width:100%; overflow-y: scroll; height:500px;">
+    <div class="alert alert-warning" role="alert" v-for="(item, idx) in input" :key="idx" style="width:20%;">
+      <img :src="image_src" alt="" style="width:40%">
+      <h1>{{ item.name }}: {{ item.number }}</h1>
+    </div>
+  </div>
 </div>
 </template>
 
@@ -15,7 +26,8 @@ export default {
     return {
       number: null,
       input: [],
-      n: 1
+      n: 1,
+      image_src: ''
     }
   },
   methods: {
@@ -32,6 +44,9 @@ export default {
         this.input.push({ name: this.getName, number: this.number })
         this.number = null
       }
+    },
+    generateAvatar () {
+      this.image_src = `https://avatars.dicebear.com/api/avataaars/${this.getName}.svg`
     }
   },
   sockets: {
@@ -39,6 +54,9 @@ export default {
       console.log(payload)
       this.input.push(payload)
     }
+  },
+  created () {
+    this.generateAvatar()
   },
   computed: {
     getName () {
@@ -49,17 +67,5 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  background-color: blue;
-  height: 100px;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  margin-top: 300px;
-}
-
-.container .box {
-  background-color: silver
-}
 
 </style>
