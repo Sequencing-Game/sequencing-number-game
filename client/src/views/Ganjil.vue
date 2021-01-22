@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: 'Game',
+  name: 'Ganjil',
   data () {
     return {
       number: null,
@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     sendServer () {
-      this.n++
+      this.n = this.n + 2
       if (+this.number === this.n) {
         this.$socket.emit('number', { name: this.getName, number: this.number })
         this.input.push({ name: this.getName, number: this.number })
