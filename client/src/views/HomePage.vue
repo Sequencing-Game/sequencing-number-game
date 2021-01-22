@@ -1,5 +1,5 @@
 <template>
-<div style="background-color:#0a043c; ">
+<div style="background-color:#0a043c; height:100%; ">
   <div class="row">
     <div class="col-md-6">
       <img src="../assets/undraw_game_day_ucx9.svg">

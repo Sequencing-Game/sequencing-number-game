@@ -12,7 +12,7 @@
   </div><br>
   <div class="bg-white rounded shadow container m-10" style="display:flex; flex-wrap:wrap; width:100%; overflow-y: scroll; height:500px;">
     <div class="alert alert-warning" role="alert" v-for="(item, idx) in input" :key="idx" style="width:20%;">
-      <img :src="image_src" alt="" style="width:40%">
+      <img :src="`https://avatars.dicebear.com/api/avataaars/${item.name}.svg`" alt="" style="width:40%">
       <h1>{{ item.name }}: {{ item.number }}</h1>
     </div>
   </div>
@@ -26,8 +26,7 @@ export default {
     return {
       number: null,
       input: [],
-      n: 1,
-      image_src: ''
+      n: 1
     }
   },
   methods: {
@@ -44,9 +43,6 @@ export default {
         this.input.push({ name: this.getName, number: this.number })
         this.number = null
       }
-    },
-    generateAvatar () {
-      this.image_src = `https://avatars.dicebear.com/api/avataaars/${this.getName}.svg`
     }
   },
   sockets: {
@@ -54,9 +50,6 @@ export default {
       console.log(payload)
       this.input.push(payload)
     }
-  },
-  created () {
-    this.generateAvatar()
   },
   computed: {
     getName () {
