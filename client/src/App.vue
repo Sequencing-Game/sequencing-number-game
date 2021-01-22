@@ -12,7 +12,7 @@
   text-align: center;
   color: #2c3e50;
   /* background-color: salmon; */
-  height: 100vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-content: center;
