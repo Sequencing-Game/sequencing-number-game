@@ -2,12 +2,15 @@
 <div class="container">
   <img src="../assets/usher.svg" alt="" style="height:30vh;">
   <div class="row">
-    <h1 class="display-3 text-white">Hey there, {{ getName }} !</h1>
+    <h1 class="display-3 text-white">It's getting harder {{ getName }}, now Cube Numbers!</h1>
   </div><br>
   <div class="row">
+      <p class="lead text-white">Hint: A cube number is the result when a number has been multiplied by itself twice. <br>
+          For example, <span class="text-warning">8</span> = 2 x 2 x 2 (2 multiplied by itself twice); <span class="text-warning">27</span> = 3 x 3 x 3, and so on.
+      </p>
     <form @submit.prevent="sendServer" >
-      <h1>Set your number here</h1>
-      <input id="number" v-model="number" type="number" class="form-control" placeholder="guess the next number faster!">
+      <h1>Input your next cube number</h1>
+      <input id="number" v-model="number" type="number" class="form-control" placeholder="guess the next odd number!">
     </form>
   </div><br>
   <div class="bg-white rounded shadow container m-10" style="display:flex; flex-wrap:wrap; width:100%; overflow-y: scroll; height:500px;">
@@ -21,20 +24,22 @@
 
 <script>
 export default {
-  name: 'Game',
+  name: 'Kubik',
   data () {
     return {
       number: null,
       input: [],
-      n: 1
+      n: 0,
+      temp: 0
     }
   },
   methods: {
     sendServer () {
-      if (this.n >= 10) {
-        this.$router.push('/genap')
+      if (this.n >= 1000) {
+        this.$router.push('/persegiPanjang')
       } else {
-        this.n++
+        this.temp++
+        this.n = Math.pow(this.temp, 3)
         if (+this.number === this.n) {
           this.$socket.emit('number', { name: this.getName, number: +this.number, n: +this.n, temp: +this.temp })
           this.input.push({ name: this.getName, number: +this.number })
@@ -43,6 +48,7 @@ export default {
         } else {
           this.n = 1
           this.number = 1
+          this.temp = 1
           this.$socket.emit('number', { name: this.getName, number: +this.number, n: +this.n, temp: +this.temp })
           this.input.push({ name: this.getName, number: +this.number })
           this.number = null
@@ -54,10 +60,11 @@ export default {
     inputBaru (payload) {
       console.log(payload)
       this.input.push(payload)
-      if (payload.n >= 10) {
-        this.$router.push('/genap')
+      if (payload.n >= 1000) {
+        this.$router.push('/persegiPanjang')
       } else {
         this.n = payload.n
+        this.temp = payload.temp
       }
     }
   },

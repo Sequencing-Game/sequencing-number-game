@@ -2,12 +2,15 @@
 <div class="container">
   <img src="../assets/usher.svg" alt="" style="height:30vh;">
   <div class="row">
-    <h1 class="display-3 text-white">Hey there, {{ getName }} !</h1>
+    <h1 class="display-3 text-white"> {{ getName }}, are you okay? Try with rectangular numbers!</h1>
   </div><br>
+      <p class="lead text-white">Hint: The numbers that can be arranged to form a rectangle, <span class="text-warning">n(n+1)</span>  <br>
+          For example, <span class="text-warning">2</span> = 1(1+1), <span class="text-warning">6</span> = 2(2+1)
+      </p>
   <div class="row">
     <form @submit.prevent="sendServer" >
-      <h1>Set your number here</h1>
-      <input id="number" v-model="number" type="number" class="form-control" placeholder="guess the next number faster!">
+      <h1>Input your next rectangular number</h1>
+      <input id="number" v-model="number" type="number" class="form-control" placeholder="guess the next rectangular number!">
     </form>
   </div><br>
   <div class="bg-white rounded shadow container m-10" style="display:flex; flex-wrap:wrap; width:100%; overflow-y: scroll; height:500px;">
@@ -21,28 +24,31 @@
 
 <script>
 export default {
-  name: 'Game',
+  name: 'PersegiPanjang',
   data () {
     return {
       number: null,
       input: [],
-      n: 1
+      n: 0,
+      temp: 0
     }
   },
   methods: {
     sendServer () {
-      if (this.n >= 10) {
-        this.$router.push('/genap')
+      if (this.n >= 90) {
+        this.$router.push('/segitiga')
       } else {
-        this.n++
+        this.temp++
+        this.n = (this.temp) * (this.temp + 1)
         if (+this.number === this.n) {
           this.$socket.emit('number', { name: this.getName, number: +this.number, n: +this.n, temp: +this.temp })
           this.input.push({ name: this.getName, number: +this.number })
           this.number = null
           this.$store.commit('addScore')
         } else {
-          this.n = 1
-          this.number = 1
+          this.n = 0
+          this.number = 0
+          this.temp = 0
           this.$socket.emit('number', { name: this.getName, number: +this.number, n: +this.n, temp: +this.temp })
           this.input.push({ name: this.getName, number: +this.number })
           this.number = null
@@ -54,10 +60,11 @@ export default {
     inputBaru (payload) {
       console.log(payload)
       this.input.push(payload)
-      if (payload.n >= 10) {
-        this.$router.push('/genap')
+      if (payload.n >= 90) {
+        this.$router.push('/segitiga')
       } else {
         this.n = payload.n
+        this.temp = payload.temp
       }
     }
   },

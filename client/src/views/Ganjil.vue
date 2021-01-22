@@ -2,12 +2,12 @@
 <div class="container">
   <img src="../assets/usher.svg" alt="" style="height:30vh;">
   <div class="row">
-    <h1 class="display-3 text-white">Hey there, {{ getName }} !</h1>
+    <h1 class="display-3 text-white">{{ getName }}, It's level 3! Odd Number!</h1>
   </div><br>
   <div class="row">
     <form @submit.prevent="sendServer" >
-      <h1>Set your number here</h1>
-      <input id="number" v-model="number" type="number" class="form-control" placeholder="guess the next number faster!">
+      <h1>Set your odd number here</h1>
+      <input id="number" v-model="number" type="number" class="form-control" placeholder="guess the next odd number!">
     </form>
   </div><br>
   <div class="bg-white rounded shadow container m-10" style="display:flex; flex-wrap:wrap; width:100%; overflow-y: scroll; height:500px;">
@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  name: 'Game',
+  name: 'Ganjil',
   data () {
     return {
       number: null,
@@ -31,10 +31,10 @@ export default {
   },
   methods: {
     sendServer () {
-      if (this.n >= 10) {
-        this.$router.push('/genap')
+      if (this.n >= 19) {
+        this.$router.push('/prima')
       } else {
-        this.n++
+        this.n = this.n + 2
         if (+this.number === this.n) {
           this.$socket.emit('number', { name: this.getName, number: +this.number, n: +this.n, temp: +this.temp })
           this.input.push({ name: this.getName, number: +this.number })
@@ -54,8 +54,8 @@ export default {
     inputBaru (payload) {
       console.log(payload)
       this.input.push(payload)
-      if (payload.n >= 10) {
-        this.$router.push('/genap')
+      if (payload.n >= 19) {
+        this.$router.push('/prima')
       } else {
         this.n = payload.n
       }
@@ -70,5 +70,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

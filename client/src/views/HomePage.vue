@@ -67,11 +67,6 @@ export default {
       })
       this.$router.push('/game')
     }
-  },
-  sockets: {
-    init (payload) {
-      console.log(payload)
-    }
   }
 }
 </script>
