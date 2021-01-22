@@ -10,17 +10,19 @@
 
 <script>
 export default {
-  name: 'Game',
+  name: 'Segitiga',
   data () {
     return {
       number: null,
       input: [],
-      n: 1
+      n: 1,
+      temp: 1
     }
   },
   methods: {
     sendServer () {
-      this.n++
+      this.temp++
+      this.n = (0.5) * (this.temp) * (this.temp + 1)
       if (+this.number === this.n) {
         this.$socket.emit('number', { name: this.getName, number: this.number })
         this.input.push({ name: this.getName, number: this.number })

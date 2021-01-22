@@ -10,25 +10,25 @@
 
 <script>
 export default {
-  name: 'Game',
+  name: 'Genap',
   data () {
     return {
       number: null,
       input: [],
-      n: 1
+      n: 0
     }
   },
   methods: {
     sendServer () {
-      this.n++
+      this.n = this.n + 2
       if (+this.number === this.n) {
         this.$socket.emit('number', { name: this.getName, number: this.number })
         this.input.push({ name: this.getName, number: this.number })
         this.number = null
         this.$store.commit('addScore')
       } else {
-        this.n = 1
-        this.number = 1
+        this.n = 0
+        this.number = 0
         this.$socket.emit('number', { name: this.getName, number: this.number })
         this.input.push({ name: this.getName, number: this.number })
         this.number = null
